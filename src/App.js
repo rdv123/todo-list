@@ -1,15 +1,24 @@
 
-  import './App.css';
+  import { useState } from 'react';
+import './App.css';
 
   function App() {
- const todos=
-  [{id:'1',title:'купить хеб'},
-  {id:'2',title:'выучить react'},
-  {id:'3',title:'выучить js'},
-  {id:'4',title:'выучить css'},
-  {id:'5',title:'выучить bootsrap'},
-]
-     
+   const [todos,setTodos] = useState( 
+   [{id:'1',title:'купить хеб'},
+   {id:'2',title:'выучить react'},
+   {id:'3',title:'выучить js'},
+   {id:'4',title:'выучить css'},
+   {id:'5',title:'выучить bootsrap'},
+ ])
+
+  const [color,setColor] = useState('black')
+   let colorTest ='blackTest'
+ 
+    let  deleteTask = (id) => {
+        colorTest ='green'
+        console.log(colorTest)
+        setColor('blue')
+    }
 
     return (
     <div className="container">
@@ -24,9 +33,13 @@
       <ul className="list-group">
       
         {todos.map((todo)=>{
-          return  <li className="list-group-item">{todo.title}
-          <button type="button" className="btn btn-primary">Primary</button>
+          return  <div><li className="list-group-item">{todo.title}
+          
           </li>
+          <button type="button" 
+                  className="btn btn-primary"
+                  onClick={()=>deleteTask(todo.id)}>{color} -------{colorTest}</button>
+          </div>
         })}
               
           {/* <li className="list-group-item">A second item</li>
