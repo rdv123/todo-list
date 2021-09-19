@@ -6,7 +6,7 @@ const Todo = ({todoProps,deleteTaskProps, strikOutText}) => {
         <>
             <li className="list-group-item w-100 d-flex" 
                 onClick = {()=>strikOutText(todoProps.id)}
-                style={{ textDecorationLine: todoProps.marked ? 'line-through' : ''}}>{todoProps.title} 
+                style={{ textDecorationLine: todoProps.completed ? 'line-through' : ''}}>{todoProps.title} 
                 <small className="ms-auto">{todoProps.date}</small> 
             </li>
                 <button type="button" 
