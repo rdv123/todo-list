@@ -3,7 +3,7 @@
 import { flushSync } from 'react-dom';
 import './App.css';
 import Todo from './component/Todo';
-let count = 5
+let count = 200
   function App() {
     const [text,setText] = useState('')
     
@@ -109,7 +109,7 @@ let options ={
                      (e)=>setText(e.target.value)
                     }
                     />
-                     <button type="button" 
+                     <button type="button"  disabled={text===''}
                 className="btn btn-primary"
                 onClick = {()=> pushTask (text)}>Добавить</button>
       
