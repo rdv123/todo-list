@@ -1,37 +1,47 @@
 
-  import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 import './App.css';
 import Todo from './component/Todo';
-let count = 200
+  let count = 200
   function App() {
     const [text,setText] = useState('')
     
    const [todos,setTodos] = useState( 
    [
-  //    {id:'1',title:'купить хеб',date:'13.09.21', completed: false},
-  //  {id:'2',title:'выучить react', date:'13.09.21', completed: false},
-  //  {id:'3',title:'выучить js', date:'13.09.21', completed: true},
-  //  {id:'4',title:'выучить css', date:'13.09.21', completed: false},
-  //  {id:'5',title:'выучить bootsrap',date:'13.09.21', completed: true},
+     {id:'1',title:'купить хеб',date:'13.09.21', completed: false},
+   {id:'2',title:'выучить react', date:'13.09.21', completed: false},
+   {id:'3',title:'выучить js', date:'13.09.21', completed: true},
+   {id:'4',title:'выучить css', date:'13.09.21', completed: false},
+   {id:'5',title:'выучить bootsrap',date:'13.09.21', completed: true},
  ]
  )
+
+ const getTodos = async ()=>{
+  // fetch('https://jsonplaceholder.typicode.com/todos/')
+  // .then(response => response.json())
+  // .then(todos => setTodos(todos))
+   const respons =  await fetch('https://todo-app-73190-default-rtdb.firebaseio.com/todos.json')
+   const todos = await  respons.json()
+   setTodos(todos)
+}
+ 
 //  const [count, setCount] = useState(0)
 //  (count) => {
 //   setCount(count+1)
 //  }
 let d = new Date()
-let options ={
-  //era: 'long',
-  year: 'numeric',
-  month: 'long',
-  day:'numeric',
-  weekday: 'long',
-  //timezone:'UTC',
-  hour:'numeric',
-  minute: 'numeric',
-  sekond: 'numeric'
-}
+// let options ={
+//   //era: 'long',
+//   year: 'numeric',
+//   month: 'long',
+//   day:'numeric',
+//   weekday: 'long',
+//   //timezone:'UTC',
+//   hour:'numeric',
+//   minute: 'numeric',
+//   sekond: 'numeric'
+// }
 //console.log(d.toLocaleString('ru',options))
  
  let pushTask = (title)=>{
@@ -39,8 +49,17 @@ let options ={
   //  const copyArray = [...todos]
   //  console.log('copyArray',copyArray)
   //  copyArray.push({id:'6',title})
+  fetch("https://todo-app-73190-default-rtdb.firebaseio.com/todos.json",
+{
+    headers: {
+      // 'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: "POST",
+    body: JSON.stringify({id:count.toString(),title,completed:false,date:d.toLocaleString()})
+})
    setTodos([{id:count.toString(),title,completed:false,date:d.toLocaleString()},...todos])
-  
+   localStorage.setItem('todosData', JSON.stringify([{id:count.toString(),title,completed:false,date:d.toLocaleString()},...todos]))
   setText("")
   console.log(todos)
 
@@ -83,13 +102,20 @@ let options ={
     //console.log(a)
     let b = todos.filter(todo=>todo.completed === true)
     let c = todos.filter(todo=>todo.completed === false)
-
+   
     useEffect(()=>{
-      fetch('https://jsonplaceholder.typicode.com/todos/')
-      .then(response => response.json())
-      .then(todos => setTodos(todos))
+     
+      // const raw = localStorage.getItem('todosData')
+      // const todosLocal = JSON.parse(raw)
+      // console.log('todosLocal',todosLocal)
+      // setTodos(todosLocal)
+      console.log('useEffect')
+      getTodos()
     },[])
-  
+
+   if(!todos){
+     return
+   }
 
     return (
     <div className="container mt-3">
